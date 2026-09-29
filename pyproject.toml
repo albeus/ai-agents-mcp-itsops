@@ -1,0 +1,20 @@
+[project]
+name = "mcp-itsops"
+version = "0.1.0"
+description = "A small, local Model Context Protocol (MCP) server built as a exploration of MCP server design, discovery, tool execution, and security boundaries."
+readme = "README.md"
+authors = [
+    { name = "Alberto Eusebi", email = "albeus@ebi.ac.uk" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "ipython>=9.17.1",
+    "mcp[cli]>=2.2.0",
+]
+
+[project.scripts]
+mcp-itsops = "mcp_itsops:main"
+
+[build-system]
+requires = ["uv_build>=0.12.13,<0.13.0"]
+build-backend = "uv_build"
