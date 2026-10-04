@@ -1,7 +1,9 @@
 import json
 import logging
 import subprocess
+import time
 from pathlib import Path
+import os
 
 from mcp.server.mcpserver import MCPServer
 
@@ -164,7 +166,6 @@ def k8s_pod_status(
 
     return "\n".join(lines)
 
-import time
 
 @mcp.tool()
 def slow_probe(seconds: int = 10) -> str:
@@ -177,10 +178,14 @@ def slow_probe(seconds: int = 10) -> str:
 
 
 if __name__ == "__main__":
-    mcp.run(
-        transport="streamable-http",
-        host="0.0.0.0",
-        port=8000,
-        stateless_http=True,
-        json_response=True,
-    )
+    transport = os.environ.get("MCP_TRANSPORT", "stdio")
+    if transport == "streamable-http":
+        mcp.run(
+            transport="streamable-http",
+            host=os.environ.get("MCP_HOST", "127.0.0.1"),
+            port=int(os.environ.get("MCP_PORT", "8000")),
+            stateless_http=True,
+            json_response=True,
+        )
+    else:
+        mcp.run()
